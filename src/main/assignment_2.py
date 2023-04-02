@@ -126,6 +126,46 @@ def cubic_spline_interpolation():
   
   m = len(cubic_x)
   
+  cub1 = np.zeros(m - 1)
+  
+  cub2 = np.zeros(m)
+  
+  for i in range(m - 1):
+      cub1[i] = cubic_x[i + 1] - cubic_x[i]
+    
+      cub2[i + 1] = (cubic_fx[i + 1] - cubic_fx[i]) / cub1[i]
+
+  mat_A = np.zeros((m, m))
+  
+  vector_b = np.zeros(m)
+  
+  for i in range(1, m - 1):
+    
+      mat_A[i][i - 1] = cub1[i - 1]
+    
+      mat_A[i][i] = 2 * (cub1[i - 1] + cub1[i])
+    
+      mat_A[i][i + 1] = cub1[i]
+    
+      vector_b[i] = 3 * (cub2[i + 1] - cub2[i])
+
+  mat_A[0][0] = 1
+  
+  mat_A[m - 1][m - 1] = 1
+# Creating vector x
+  vector_x = np.linalg.solve(mat_A, vector_b)
+
+# Printing Matrix A, which is the first part of the question
+  print(mat_A, end="\n\n")
+  
+# This is printing vector b
+  print(vector_b, end="\n\n")
+  
+# This is printing vector x
+  print(vector_x, end="\n\n")
+
+# I will call the cubic_spline_interpolation command from main
+  
   
   
 if __name__ == "__main__":
